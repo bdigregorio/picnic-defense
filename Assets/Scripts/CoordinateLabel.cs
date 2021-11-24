@@ -5,29 +5,36 @@ using UnityEngine;
 public class CoordinateLabel : MonoBehaviour {
 
     private TextMeshPro label;
+    private Vector2Int gridPosition;
 
     void Awake() {
         label = GetComponent<TextMeshPro>();
+        UpdateCoordinateLabel();
     }
     
     void Update() {
-        var gridPosition  = GetCoordinateVector();
-        UpdateCoordinateLabel(gridPosition);
-        UpdateObjectName(gridPosition);
+        if (!Application.isPlaying) {
+            UpdateCoordinateLabel();
+        }
     }
 
-    private Vector2 GetCoordinateVector() {
-        var position = transform.position;
-        return new Vector2(position.x / 10, position.z / 10);
+    private Vector2Int GetGridPosition() {
+        var position = transform.parent.position;
+        var gridUnitSize = UnityEditor.EditorSnapSettings.move;
+        var x = Mathf.RoundToInt(position.x / gridUnitSize.x);
+        var y = Mathf.RoundToInt(position.z / gridUnitSize.z);
+        return new Vector2Int(x, y);
     }
 
-    private void UpdateCoordinateLabel(Vector2 gridPosition) {
-        if (!Application.isPlaying && label != null) {
+    private void UpdateCoordinateLabel() {
+        gridPosition  = GetGridPosition();
+        if (label != null) {
             label.text = $"({gridPosition.x}, {gridPosition.y})";
         }    
+        UpdateObjectName();
     }
 
-    private void UpdateObjectName(Vector2 gridPosition) {
+    private void UpdateObjectName() {
         transform.parent.name = $"({gridPosition.x}, {gridPosition.y})";
     }
 }
