@@ -29,12 +29,12 @@ public class CoordinateLabel : MonoBehaviour {
     private void UpdateCoordinateLabel() {
         gridPosition  = GetGridPosition();
         if (label != null) {
-            label.text = $"({gridPosition.x}, {gridPosition.y})";
+            label.text = gridPosition.ToString();
         }    
         UpdateObjectName();
     }
 
     private void UpdateObjectName() {
-        transform.parent.name = $"({gridPosition.x}, {gridPosition.y})";
+        transform.parent.name = gridPosition.ToString();
     }
 }
