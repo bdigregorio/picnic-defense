@@ -11,16 +11,23 @@ public class CoordinateLabel : MonoBehaviour {
     }
     
     void Update() {
-        UpdateCoordinateLabel();
+        var gridPosition  = GetCoordinateVector();
+        UpdateCoordinateLabel(gridPosition);
+        UpdateObjectName(gridPosition);
     }
 
-    private void UpdateCoordinateLabel() {
-        if (!Application.isPlaying) {
-            if (label == null) return;
-            var position = transform.position;
-            var xPos = position.x / 10;
-            var zPos = position.z / 10;
-            label.text = $"({xPos}, {zPos})";
+    private Vector2 GetCoordinateVector() {
+        var position = transform.position;
+        return new Vector2(position.x / 10, position.z / 10);
+    }
+
+    private void UpdateCoordinateLabel(Vector2 gridPosition) {
+        if (!Application.isPlaying && label != null) {
+            label.text = $"({gridPosition.x}, {gridPosition.y})";
         }    
+    }
+
+    private void UpdateObjectName(Vector2 gridPosition) {
+        transform.parent.name = $"({gridPosition.x}, {gridPosition.y})";
     }
 }
