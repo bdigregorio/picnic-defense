@@ -15,6 +15,8 @@ public class EnemyPathManager : MonoBehaviour {
             Vector3 startPosition = transform.position;
             Vector3 endPosition = wayPoint.transform.position;
             float travelPercent = 0;
+            
+            transform.LookAt(endPosition);
 
             while (travelPercent < 1f) {
                 travelPercent += Time.deltaTime;
