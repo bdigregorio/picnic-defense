@@ -12,8 +12,15 @@ public class EnemyPathManager : MonoBehaviour {
 
     IEnumerator FollowPath() {
         foreach (var wayPoint in path) {
-            transform.position = wayPoint.transform.position;
-            yield return new WaitForSeconds(movementDelay);
+            Vector3 startPosition = transform.position;
+            Vector3 endPosition = wayPoint.transform.position;
+            float travelPercent = 0;
+
+            while (travelPercent < 1f) {
+                travelPercent += Time.deltaTime;
+                transform.position = Vector3.Lerp(startPosition, endPosition, travelPercent);
+                yield return new WaitForEndOfFrame();
+            }
         }
     }
 }
