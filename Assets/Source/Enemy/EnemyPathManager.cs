@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyPathManager : MonoBehaviour {
-    [SerializeField] float movementDelay = 1f;
+    [SerializeField] [Range(0f, 5f)] float speed = 1f;
     [SerializeField] List<WayPoint> path = new List<WayPoint>();
 
     void Start() {
@@ -19,7 +19,7 @@ public class EnemyPathManager : MonoBehaviour {
             transform.LookAt(endPosition);
 
             while (travelPercent < 1f) {
-                travelPercent += Time.deltaTime;
+                travelPercent += Time.deltaTime * speed;
                 transform.position = Vector3.Lerp(startPosition, endPosition, travelPercent);
                 yield return new WaitForEndOfFrame();
             }
